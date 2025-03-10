@@ -29,10 +29,9 @@ export default function InteractiveBackground() {
       speedX: number;
       speedY: number;
       color: string;
-      
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas?.width ?? window.innerWidth);
+        this.y = Math.random() * (canvas?.height ?? window.innerHeight);
         this.size = Math.random() * 3 + 1;
         this.speedX = Math.random() * 0.5 - 0.25;
         this.speedY = Math.random() * 0.5 - 0.25;
@@ -43,8 +42,8 @@ export default function InteractiveBackground() {
         this.x += this.speedX;
         this.y += this.speedY;
         
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        if (this.x < 0 || this.x > (canvas?.width ?? window.innerWidth)) this.speedX *= -1;
+        if (this.y < 0 || this.y > (canvas?.height ?? window.innerHeight)) this.speedY *= -1;
       }
       
       draw() {
@@ -83,6 +82,7 @@ export default function InteractiveBackground() {
     
     // Animation loop
     function animate() {
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Update and draw particles
@@ -106,12 +106,14 @@ export default function InteractiveBackground() {
           
           if (distance < 100) {
             const opacity = 1 - distance / 100;
-            ctx.strokeStyle = `rgba(100, 100, 255, ${opacity * 0.2})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-            ctx.stroke();
+            if (ctx) {
+              ctx.strokeStyle = `rgba(100, 100, 255, ${opacity * 0.2})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+              ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+              ctx.stroke();
+            }
           }
           
           // Mouse interaction
