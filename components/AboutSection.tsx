@@ -5,9 +5,9 @@ import InfiniteCarousel from './InfiniteCarousel';
 
 export default function AboutSection() {
   const skills = [
-    { category: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
-    { category: "Design", items: ["UI/UX", "Figma", "Responsive Design"] },
-    { category: "Tools", items: ["Git", "VS Code", "Chrome DevTools"] }
+    { category: "Frontend", items: ["React", "Next.js", "TypeScript", "JavaScript"] },
+    { category: "Design", items: ["UI/UX", "Figma", "Tailwind CSS"] },
+    { category: "Tools", items: ["Git", "Three.js", "Mapbox", "Deck.gl"] }
   ];
 
   return (
@@ -19,7 +19,7 @@ export default function AboutSection() {
           <div>
             <div className="relative w-full aspect-square max-w-md mx-auto overflow-hidden rounded-lg">
               <Image 
-                src="/profile.jpg" 
+                src="/soltan.jpeg" 
                 alt="Soltan Bolatov" 
                 fill
                 className="object-cover"
@@ -30,13 +30,14 @@ export default function AboutSection() {
           <div>
             <p className="text-lg mb-6">
               I'm a passionate frontend developer with a keen eye for design and a commitment to creating 
-              exceptional user experiences. With a background in [your background], I bring a unique perspective 
+              exceptional user experiences. With a background in Computer Software Engineering, I bring a unique perspective 
               to every project I work on.
             </p>
             
             <p className="text-lg mb-8">
               My approach combines technical excellence with creative problem-solving, 
               ensuring that the solutions I build are not only functional but also intuitive and engaging.
+              I'm currently pursuing my Bachelor's degree at Cyprus International University while gaining practical experience through internships and projects.
             </p>
             
             <div className="mb-8">

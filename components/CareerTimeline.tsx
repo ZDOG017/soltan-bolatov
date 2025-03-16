@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TimelineEvent {
   id: string;
@@ -13,130 +13,234 @@ interface TimelineEvent {
 }
 
 export default function CareerTimeline() {
-  const [activeEvent, setActiveEvent] = useState<string | null>(null);
+  const [expandedEvent, setExpandedEvent] = useState<string | null>(null);
   
   const events: TimelineEvent[] = [
     {
-      id: 'event1',
-      date: '2023 - Present',
-      title: 'Senior Frontend Developer',
-      description: 'Leading frontend development for a SaaS platform, focusing on performance optimization and accessibility.',
-      skills: ['React', 'TypeScript', 'Next.js', 'Performance Optimization'],
-      type: 'work'
+      id: "relog",
+      date: "Feb 2025 - Present",
+      title: "Frontend Developer Intern at Relog KZ",
+      description: "Developed a Route Comparing Tool using React, TypeScript, and Mapbox. Designed and implemented an interactive map interface to visualize delivery points and route priorities. Integrated backend APIs to fetch and display route data, allowing users to compare different route plans dynamically.",
+      skills: ["React", "TypeScript", "Redux", "Mapbox", "Deck.gl"],
+      type: "work"
     },
     {
-      id: 'event2',
-      date: '2021 - 2023',
-      title: 'Frontend Developer',
-      description: 'Developed responsive web applications and implemented modern UI/UX designs.',
-      skills: ['React', 'JavaScript', 'CSS/SCSS', 'Responsive Design'],
-      type: 'work'
+      id: "epam",
+      date: "Oct 2024 - Jun 2025",
+      title: "Frontend Developer with AI at EPAM Systems",
+      description: "Advanced training program focused on frontend development with AI integration. Learning cutting-edge techniques for building intelligent user interfaces and AI-powered web applications.",
+      skills: ["React", "AI Integration", "Machine Learning", "Advanced Frontend", "UI/UX"],
+      type: "education"
     },
     {
-      id: 'event3',
-      date: '2020 - 2021',
-      title: 'UI/UX Designer & Developer',
-      description: 'Created user interfaces and implemented them with a focus on user experience.',
-      skills: ['Figma', 'HTML/CSS', 'JavaScript', 'UI/UX Design'],
-      type: 'work'
+      id: "nfactorial",
+      date: "Jun 2024 - Aug 2024",
+      title: "Full Stack Developer at nFactorial Incubator",
+      description: "Built Quryltai, a web platform designed to assist users in selecting computer components. Created an intuitive UI/UX using Figma, developed the frontend with React, TypeScript, and Tailwind CSS, and built a robust API with Node.js and Express, leveraging MongoDB for data storage. Incorporated ChatGPT-4.0 for personalized component recommendations.",
+      skills: ["React", "TypeScript", "Node.js", "MongoDB", "Tailwind CSS", "AI Integration"],
+      type: "work"
     },
     {
-      id: 'event4',
-      date: '2018 - 2020',
-      title: 'Computer Science Degree',
-      description: 'Studied computer science with a focus on web technologies and user interface design.',
-      skills: ['Algorithms', 'Data Structures', 'Web Development', 'UI Design'],
-      type: 'education'
+      id: "sergek",
+      date: "May 2024 - Aug 2024",
+      title: "Computer Vision Annotator at Sergek Group",
+      description: "Annotated images to create high-quality datasets for training computer vision models. Accurately labeled images using various annotation tools and ensured consistency and precision across large datasets. Collaborated with data scientists and machine learning engineers to understand annotation requirements.",
+      skills: ["Computer Vision", "Data Annotation", "Quality Control"],
+      type: "work"
+    },
+    {
+      id: "oskemen",
+      date: "Jun 2023 - Aug 2023",
+      title: "Frontend Developer at Oskemen IT Hub",
+      description: "Designed a Three.js application with React to showcase 3D models on a portfolio website. Integrated Three.js with React for interactive 3D model viewing and created custom shaders and materials for enhanced visual effects. Developed intuitive UI controls for model interaction.",
+      skills: ["React", "Three.js", "3D Modeling", "UI Design"],
+      type: "work"
+    },
+    {
+      id: "cyprus",
+      date: "Oct 2022 - Jun 2026",
+      title: "Bachelor of Engineering - Computer Software Engineering",
+      description: "Pursuing a Bachelor's degree in Computer Software Engineering at Cyprus International University.",
+      skills: ["Software Engineering", "Computer Science", "Programming"],
+      type: "education"
+    },
+    {
+      id: "nazarbayev",
+      date: "Aug 2021 - May 2022",
+      title: "Foundation Degree in Mathematics",
+      description: "Completed a Foundation degree in Mathematics at Nazarbayev University.",
+      skills: ["Mathematics", "Problem Solving", "Analytical Thinking"],
+      type: "education"
+    },
+    {
+      id: "nis",
+      date: "2013 - 2021",
+      title: "Physics-ICT at Nazarbayev Intellectual Schools",
+      description: "Completed secondary education with a focus on Physics and ICT at Nazarbayev Intellectual Schools.",
+      skills: ["Physics", "ICT", "Academic Excellence"],
+      type: "education"
     }
   ];
-  
-  const getEventIcon = (type: string) => {
-    switch (type) {
-      case 'work':
-        return (
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-          </svg>
-        );
-      case 'education':
-        return (
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-          </svg>
-        );
-      case 'project':
-        return (
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-          </svg>
-        );
-      default:
-        return null;
+
+  const toggleEvent = (id: string) => {
+    if (expandedEvent === id) {
+      setExpandedEvent(null);
+    } else {
+      setExpandedEvent(id);
     }
   };
-  
+
   return (
-    <div className="py-12">
-      <h3 className="text-xl font-semibold mb-8 text-center">My Journey</h3>
+    <div>
+      <h2 className="text-3xl font-bold mb-8 text-center">Experience & Education</h2>
+      <p className="text-center text-gray-600 dark:text-gray-400 mb-12">
+        Click on any item to view details
+      </p>
       
-      <div className="relative max-w-3xl mx-auto">
+      <div className="relative">
         {/* Timeline line */}
         <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gray-200 dark:bg-gray-800"></div>
         
-        {/* Timeline events */}
-        <div className="space-y-12">
+        <div className="space-y-8">
           {events.map((event, index) => (
-            <div key={event.id} className={`relative flex items-center ${index % 2 === 0 ? 'flex-row-reverse' : ''}`}>
+            <div key={event.id} className="relative">
               {/* Timeline dot */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500"></div>
+              <div className={`absolute left-1/2 transform -translate-x-1/2 -translate-y-4 w-4 h-4 rounded-full 
+                ${event.type === 'work' ? 'bg-blue-500' : event.type === 'education' ? 'bg-green-500' : 'bg-purple-500'}`}>
+              </div>
               
-              {/* Event content */}
+              {/* Clickable timeline item */}
               <motion.div 
-                className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}
-                initial={{ opacity: 0, x: index % 2 === 0 ? 20 : -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
               >
-                <div 
-                  className={`p-4 rounded-lg border border-gray-200 dark:border-gray-800 cursor-pointer transition-all ${
-                    activeEvent === event.id ? 'bg-blue-50 dark:bg-blue-900/20 shadow-md' : 'hover:shadow-md'
-                  }`}
-                  onClick={() => setActiveEvent(activeEvent === event.id ? null : event.id)}
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="p-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                      {getEventIcon(event.type)}
-                    </span>
-                    <span className="text-sm font-medium text-blue-600 dark:text-blue-400">{event.date}</span>
-                  </div>
-                  
-                  <h4 className="text-lg font-semibold mb-2">{event.title}</h4>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">{event.description}</p>
-                  
-                  {activeEvent === event.id && (
-                    <motion.div 
-                      className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
+                {/* Left side content for even items */}
+                {index % 2 === 0 ? (
+                  <>
+                    <div 
+                      onClick={() => toggleEvent(event.id)}
+                      className={`md:text-right bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm cursor-pointer
+                        transition-all duration-300 hover:shadow-md md:mr-4
+                        ${expandedEvent === event.id ? 'ring-2 ring-blue-500 dark:ring-blue-400' : ''}`}
                     >
-                      <h5 className="text-sm font-medium mb-2">Skills & Technologies</h5>
-                      <div className="flex flex-wrap gap-2">
-                        {event.skills.map((skill, idx) => (
-                          <span 
-                            key={idx} 
-                            className="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-800"
-                          >
-                            {skill}
-                          </span>
-                        ))}
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-bold">{event.title}</h3>
+                        <span className="text-sm font-mono text-blue-600 dark:text-blue-400 md:hidden">
+                          {event.date}
+                        </span>
                       </div>
-                    </motion.div>
-                  )}
-                </div>
+                      
+                      <div className="flex items-center mt-2 md:flex-row-reverse">
+                        <span className={`text-xs px-2 py-1 rounded-full
+                          ${event.type === 'work' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200' : 
+                            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200'}`}
+                        >
+                          {event.type === 'work' ? 'Work' : 'Education'}
+                        </span>
+                        <span className="ml-auto md:ml-0 md:mr-auto text-gray-400 text-sm">
+                          {expandedEvent === event.id ? 'Click to collapse' : 'Click to expand'}
+                        </span>
+                      </div>
+                      
+                      <AnimatePresence>
+                        {expandedEvent === event.id && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 md:text-right"
+                          >
+                            <p className="text-gray-600 dark:text-gray-300 mb-4">
+                              {event.description}
+                            </p>
+                            
+                            <div className="flex flex-wrap gap-2 md:justify-end">
+                              {event.skills.map((skill, idx) => (
+                                <span 
+                                  key={idx} 
+                                  className="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                    
+                    <div className="hidden md:flex md:items-start md:pl-4">
+                      <span className="text-sm font-mono text-blue-600 dark:text-blue-400">
+                        {event.date}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="hidden md:flex md:items-start md:justify-end md:pr-4">
+                      <span className="text-sm font-mono text-blue-600 dark:text-blue-400">
+                        {event.date}
+                      </span>
+                    </div>
+                    
+                    <div 
+                      onClick={() => toggleEvent(event.id)}
+                      className={`md:text-left bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm cursor-pointer
+                        transition-all duration-300 hover:shadow-md md:ml-4
+                        ${expandedEvent === event.id ? 'ring-2 ring-blue-500 dark:ring-blue-400' : ''}`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-bold">{event.title}</h3>
+                        <span className="text-sm font-mono text-blue-600 dark:text-blue-400 md:hidden">
+                          {event.date}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center mt-2">
+                        <span className={`text-xs px-2 py-1 rounded-full
+                          ${event.type === 'work' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200' : 
+                            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200'}`}
+                        >
+                          {event.type === 'work' ? 'Work' : 'Education'}
+                        </span>
+                        <span className="ml-auto text-gray-400 text-sm">
+                          {expandedEvent === event.id ? 'Click to collapse' : 'Click to expand'}
+                        </span>
+                      </div>
+                      
+                      <AnimatePresence>
+                        {expandedEvent === event.id && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700"
+                          >
+                            <p className="text-gray-600 dark:text-gray-300 mb-4">
+                              {event.description}
+                            </p>
+                            
+                            <div className="flex flex-wrap gap-2">
+                              {event.skills.map((skill, idx) => (
+                                <span 
+                                  key={idx} 
+                                  className="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </>
+                )}
               </motion.div>
             </div>
           ))}

@@ -48,7 +48,7 @@ console.log(greeting());`);
     <div className="py-12">
       <h3 className="text-xl font-semibold mb-4 text-center">Interactive Code Playground</h3>
       <p className="text-center mb-8 max-w-2xl mx-auto">
-        Try editing the code below to see it run in real-time. This demonstrates my focus on creating interactive, educational experiences.
+        Try editing the code below to see it run in real-time.
       </p>
       
       <div className="max-w-3xl mx-auto rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 shadow-lg">
